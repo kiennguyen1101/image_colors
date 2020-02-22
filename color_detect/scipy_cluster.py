@@ -1,10 +1,9 @@
 from scipy import cluster
-import numpy
 import matplotlib.pyplot as plt
 import pandas
 import math
 import colorsys
-from utils import create_color_palette, rgb_to_hex, hex_to_rgb, rgb_list_to_hex
+from color_detect.utils import create_color_palette, rgb_list_to_hex
 
 
 def step(r, g, b, repititions=1):
@@ -44,20 +43,21 @@ def get_dominant_colors(input_file, num_colors=4):
     df['standardized_green'] = cluster.vq.whiten(df['green'])
     df['standardized_blue'] = cluster.vq.whiten(df['blue'])
 
-    color_pallete, distortion = cluster.vq.kmeans(df[['standardized_red', 'standardized_green', 'standardized_blue']], num_colors)
+    color_pallete, distortion = cluster.vq.kmeans(df[['standardized_red', 'standardized_green', 'standardized_blue']],
+                                                  num_colors)
     colors = []
     red_std, green_std, blue_std = df[['red', 'green', 'blue']].std()
     for color in color_pallete:
         scaled_red, scaled_green, scaled_blue = color
         colors.append((
-            math.ceil(scaled_red * red_std) ,
-            math.ceil(scaled_green * green_std) ,
-            math.ceil(scaled_blue * blue_std) 
+            math.ceil(scaled_red * red_std),
+            math.ceil(scaled_green * green_std),
+            math.ceil(scaled_blue * blue_std)
         ))
 
-    # colors.sort(key=lambda x: step(x[0], x[1], x[2], 8))    
-    return rgb_list_to_hex(colors)
-
+    colors.sort(key=lambda x: step(x[0], x[1], x[2], 8))
+    # return rgb_list_to_hex(colors)
+    return colors
 
 
 if __name__ == '__main__':
