@@ -63,5 +63,5 @@ def image_colors(image_url: str, num_suggestions: int = 4):
 
 if __name__ == '__main__':
     import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=9001, reload=False)
+    port = os.getenv('PORT', 9001)
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)
