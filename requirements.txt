@@ -1,0 +1,4 @@
+opencv-python==4.1.2.30
+sklearn
+pillow==6.2.2
+requests==2.21.0

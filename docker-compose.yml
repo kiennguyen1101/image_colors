@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  web:
+    container_name: image_color
+    image: image_color:latest
+    volumes:
+      - ./:/app
+    ports:
+      - '9000:80'
+    tty: true
+    env_file:
+      - .env
+    restart: on-failure
+    command: /start-reload.sh
