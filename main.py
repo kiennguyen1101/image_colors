@@ -1,11 +1,11 @@
 from typing import List
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 import requests
 import os
 import time
 
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 from color_detect import get_dominant_colors, rgb_list_to_hex
 
@@ -48,8 +48,8 @@ class ColorResponseModel(BaseModel):
     data: List[str] = []
 
 
-@app.get("/colors", response_model=ColorResponseModel)
-def image_colors(image_url: str, num_suggestions: int = 4):
+@app.get("/color_suggestions", response_model=ColorResponseModel)
+def color_suggestions(image_url: HttpUrl, num_suggestions: int = Query(4, gt=0, lt=9)):
     if not is_image(image_url):
         raise HTTPException(status_code=400, detail='URL provided is not an image')
     filename = download_image(image_url)
