@@ -9,7 +9,7 @@ from pydantic import BaseModel, HttpUrl
 
 from color_detect import get_dominant_colors, rgb_list_to_hex
 
-app = FastAPI()
+app = FastAPI(title=os.getenv('APP_NAME', 'Detect Image Color'))
 
 
 def is_image(url):
