@@ -1,3 +1,4 @@
+import os
 from collections import Counter
 
 import cv2
@@ -21,7 +22,9 @@ def get_dominant_colors(input_file, num_colors=4):
     mask = cv2.inRange(image, low, high)
     img = cv2.bitwise_and(image, image, mask=mask)
     reshaped = img.reshape(img.shape[0] * img.shape[1], img.shape[2])
-    kmeans = KMeans(n_clusters=num_colors, n_init=40, max_iter=500)
+    n_init = os.getenv('n_init', 20)
+    max_iter = os.getenv('max_iter', 200)
+    kmeans = KMeans(n_clusters=num_colors, n_init=n_init, max_iter=max_iter)
     # kmeans = KMeans(n_clusters=num_colors+1)
     # result = kmeans.fit_predict(reshaped).cluster_centers_
     # result = result.astype(float).tolist()

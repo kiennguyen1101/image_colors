@@ -28,3 +28,6 @@ bind = use_bind
 keepalive = 120
 errorlog = "-"
 reload = True
+timeout = os.getenv("WORKER_TIMEOUT", 60)
+graceful_timeout = os.getenv("WORKER_TIMEOUT", 60)
+worker_connections = os.getenv("WORKER_CONNECTIONS", 2)
